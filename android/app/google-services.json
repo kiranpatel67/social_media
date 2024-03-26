@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "606670063011",
+    "project_id": "social-media-ani-kiran",
+    "storage_bucket": "social-media-ani-kiran.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:606670063011:android:854e53ce0d4988fef0c616",
+        "android_client_info": {
+          "package_name": "com.example.social_media"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAL_P9kzNP1KK-IpadVCFrkV2IZKDInoDw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

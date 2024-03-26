@@ -1,12 +1,49 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-class social_media extends StatefulWidget {
-  const social_media({super.key});
+import 'package:flutter/widgets.dart';
+import 'package:social_media/scroll_page/scroll_img.dart';
+
+import '../login/email_get.dart';
+class SocialMedia extends StatefulWidget {
+  const SocialMedia({super.key});
 
   @override
-  State<social_media> createState() => _social_mediaState();
+  State<SocialMedia> createState() => _SocialMediaState();
 }
 
-class _social_mediaState extends State<social_media> {
+
+
+class _SocialMediaState extends State<SocialMedia> {
+
+final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+TextEditingController password = TextEditingController();
+TextEditingController email = TextEditingController();
+
+void login(BuildContext context) async {
+  UserCredential? userCredential;
+  try {
+    userCredential = await _firebaseAuth.signInWithEmailAndPassword(email: email.text, password: password.text);
+  } catch (e) {
+    if(userCredential?.credential == null){
+      userCredential = await _firebaseAuth.createUserWithEmailAndPassword(email: email.text, password: password.text);
+    }
+  }
+  if (userCredential?.user != null) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Successful')),
+    );
+
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => Scroll(),
+      ),
+    );
+  }
+}
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -22,8 +59,8 @@ class _social_mediaState extends State<social_media> {
       child: Scaffold(
         backgroundColor: Colors.transparent,
         appBar: AppBar(
-            backgroundColor: Colors.transparent,
-          leading: Icon(Icons.arrow_back_ios),
+             backgroundColor: Colors.transparent,
+          leading: Icon(Icons.arrow_back_ios, color: Color(0xFFFFFFFF),),
           title: Container(
             alignment: Alignment.centerRight,
             child: Text("Don't have an Account?", textAlign: TextAlign.end, style: TextStyle(
@@ -31,12 +68,10 @@ class _social_mediaState extends State<social_media> {
             )),
           ),
          actions: [
-
            Container(
              margin: EdgeInsets.fromLTRB(0,0,32,0),
              child: TextButton(onPressed: (){}
                  , child: Text("Get Started", style: TextStyle(color: Color(0xFFFFFFFF),
-
                )),
              style: ButtonStyle(
                  backgroundColor: MaterialStatePropertyAll(Color(0x4DFFFFFF)),
@@ -46,13 +81,11 @@ class _social_mediaState extends State<social_media> {
 
                  )
                )
-             ),
-             ),),
+             ),),),
            )
          ],
         ),
-        body:
-          Column(
+        body: ListView(
             children: [
 
               SizedBox(
@@ -62,7 +95,7 @@ class _social_mediaState extends State<social_media> {
                   child: Align(
                     alignment: Alignment.center,
                     child: Text(
-                      "Jobsly",style: TextStyle(
+                      "Social Media",style: TextStyle(
                       fontSize: 30,
                       fontWeight:FontWeight.w600,
                       color: Colors.white,
@@ -74,81 +107,126 @@ class _social_mediaState extends State<social_media> {
 
           Stack(
             children: [
-              SizedBox(
-                  width: MediaQuery.of(context).size.width * 1,
-                   height: MediaQuery.of(context).size.height * 0.8 -56,
+              Container(
 
-                  child:Container(
-                    margin: EdgeInsets.fromLTRB(0, 48, 0, 0),
-                    decoration: BoxDecoration(
-                      color: Color(0xFFFFFFFF),
-                      borderRadius: BorderRadius.only(topLeft: Radius.circular(12), topRight: Radius.circular(12)),
+                margin: EdgeInsets.all(32),
+                decoration: BoxDecoration(
+                  color: Color(0xFFFFFFFF).withOpacity(0.3),
+                  borderRadius: BorderRadius.all(Radius.circular(12)),
+                ),
+
+
+              ),
+              Container(
+                margin: EdgeInsets.fromLTRB(0, 48, 0, 0),
+                decoration: BoxDecoration(
+                  color: Color(0xFFFFFFFF),
+                  borderRadius: BorderRadius.only(topLeft: Radius.circular(12), topRight: Radius.circular(12)),
+                ),
+                child:Column(
+                  children: [
+                    Container(
+                      margin: EdgeInsets.fromLTRB(0, 32, 0, 0),
+                      child: Text("Welcome Back" ,style: TextStyle(
+                        color: Color(0xFF000000),
+                        fontWeight: FontWeight.bold,
+
+                        fontSize: 24,
+                      ),),
+                    ),Container(
+                      margin: EdgeInsets.fromLTRB(0, 6, 0, 0),
+                      child: Text("Enter your details below" ,style: TextStyle(
+                        color: Color(0xFF363636),
+                        // fontWeight: FontWeight.bold,
+
+                        fontSize: 12,
+                      ),),
                     ),
-                    child:Column(
+
+
+                  //   Textfeild starts here______________
+
+                    Column(
+
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Container(
-                          margin: EdgeInsets.fromLTRB(0, 32, 0, 0),
-                          child: Text("Welcome Back" ,style: TextStyle(
-                            color: Color(0xFF000000),
-                            fontWeight: FontWeight.bold,
 
-                            fontSize: 24,
-                          ),),
-                        ),Container(
-                          margin: EdgeInsets.fromLTRB(0, 6, 0, 0),
-                          child: Text("Enter your details below" ,style: TextStyle(
-                            color: Color(0xFF363636),
-                            // fontWeight: FontWeight.bold,
-
-                            fontSize: 12,
-                          ),),
+                          margin: EdgeInsets.fromLTRB(20, 28, 20, 0),
+                          child: TextField(
+                            controller: email,
+                            decoration: InputDecoration(
+                              border: OutlineInputBorder(),
+                              labelText: "Email Address",
+                              hintText: "Enter your Email",
+                            ),
+                          ),
                         ),
-                      //   Textfeild starts here______________
+                        Container(
+                          margin: EdgeInsets.fromLTRB(20, 28, 20, 0),
+                          child: TextField(
+                            controller: password,
+                            obscureText: true,
+                            enableSuggestions: false,
+                            autocorrect: false,
 
-                        TextField(
+                            decoration: InputDecoration(
+                              border: OutlineInputBorder(),
+                              labelText: "Password",
+                              hintText: "Enter your Password",
+                            ),
+                          ),
+                        ),
 
-                          decoration: InputDecoration(
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width * 1,
+                          height: 80,
+                          child: Container(
+                            margin: EdgeInsets.fromLTRB(20, 28, 20, 0),
+                            decoration: BoxDecoration(gradient: LinearGradient(
+                              begin: Alignment.topLeft,
+                              end: Alignment(0.8, 1),
+                              colors: <Color>[
+                                Color(0xff340494),
+                                Color(0xff340494),
+                                Color(0xff940440),
+                              ],
+                            )),
+                            // margin: EdgeInsets.fromLTRB(20, 28, 20, 0),
+                            child: TextButton(onPressed:() => login(context),
+                              child: Text("Get Started", style: TextStyle(color: Color(0xFFFFFFFF),
+                              )),
+                              style: ButtonStyle(
 
-                            labelText: "Hello",
-                            enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(width: 2, color: Color(0xFFFFFFF))
-                            )
+                                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                                    RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular((6.0),
+
+                                        )
+                                    )
+                                ),),),
+                          ),
+                        ),
+
+                        Container(
+                          margin: EdgeInsets.fromLTRB(0, 28, 0, 0),
+                          child: Text("Forgot your Password?",
+                            textAlign: TextAlign.center,
+
                           ),
                         )
-
-
                       ],
-                    ),
+                    )
 
 
-                  )
+                  ],
+                ),
+
 
               ),
-              SizedBox( // background wala container
-                  width: MediaQuery.of(context).size.width * 1,
-                  height: MediaQuery.of(context).size.height * 0.8 -56,
 
-                  child:Container(
-
-                    margin: EdgeInsets.all(32),
-                    decoration: BoxDecoration(
-                      color: Color(0x67FFFFFF),
-                      borderRadius: BorderRadius.all(Radius.circular(12)),
-                    ),
-
-
-                  )
-
-              ),
             ],
           ),
-        Container(
-          decoration: BoxDecoration(
-            color: Color(0xFFFFFFFF),
-            borderRadius: BorderRadius.all(Radius.circular(12)),
-          ),
-        ),
-
 
           ],
           )

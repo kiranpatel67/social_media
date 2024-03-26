@@ -1,12 +1,26 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:social_media/imagepicker/grid_display.dart';
 import 'package:social_media/loginuI/userI.dart';
+import 'package:social_media/pages/img_upload.dart';
+import 'package:social_media/scroll_page/scroll_img.dart';
 
-void main() {
-  runApp(const MyApp());
+import 'login/email_get.dart';
+
+Future<void> main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options:
+  FirebaseOptions(apiKey: "AIzaSyAL_P9kzNP1KK-IpadVCFrkV2IZKDInoDw",
+      appId: "1:606670063011:android:854e53ce0d4988fef0c616",
+      messagingSenderId: "606670063011",
+      projectId: "social-media-ani-kiran"));
+  runApp( MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  FirebaseAuth instance = FirebaseAuth.instance;
+   MyApp({super.key});
 
   // This widget is the root of your application.
   @override
@@ -32,7 +46,9 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const social_media(),
+
+      home:GridDisplay(),
+
     );
   }
 }
