@@ -3,7 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:social_media/imagepicker/grid_display.dart';
 import 'package:social_media/loginuI/userI.dart';
-import 'package:social_media/pages/img_upload.dart';
+import 'package:social_media/pages/pageview.dart';
 import 'package:social_media/scroll_page/scroll_img.dart';
 
 import 'login/email_get.dart';
@@ -47,7 +47,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
 
-      home:GridDisplay(),
+      home:Scrollimage(),
 
     );
   }
