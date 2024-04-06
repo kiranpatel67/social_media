@@ -1,20 +1,22 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:social_media/scroll_page/scroll_img.dart';
-
-import '../login/email_get.dart';
-class SocialMedia extends StatefulWidget {
-  const SocialMedia({super.key});
+import 'package:social_media/data/network/firebaseService.dart';
+import 'package:social_media/app.screens/home_page/home_screen.dart';
+import 'package:social_media/data/models/user.dart';
+import 'package:social_media/app.screens/LoginSignup/setUserProfile.dart';
+class UserLogin extends StatefulWidget {
+  const UserLogin({super.key});
 
   @override
-  State<SocialMedia> createState() => _SocialMediaState();
+  State<UserLogin> createState() => _UserLoginState();
 }
 
 
 
-class _SocialMediaState extends State<SocialMedia> {
+class _UserLoginState extends State<UserLogin> {
 
 final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 TextEditingController password = TextEditingController();
@@ -27,20 +29,31 @@ void login(BuildContext context) async {
   } catch (e) {
     if(userCredential?.credential == null){
       userCredential = await _firebaseAuth.createUserWithEmailAndPassword(email: email.text, password: password.text);
+
     }
   }
   if (userCredential?.user != null) {
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Successful')),
+      SnackBar(content: Text('Login Successful')),
     );
 
-
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => Scroll(),
-      ),
-    );
+    DocumentSnapshot<Map<String, dynamic>> data = await FirebaseService.getUserData();
+    if(data.exists){
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => HomeScreen(),
+        ),
+      );
+    }
+    else{
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => SetProfileScreen(),
+        ),
+      );
+    }
   }
 }
 
@@ -60,7 +73,9 @@ void login(BuildContext context) async {
         backgroundColor: Colors.transparent,
         appBar: AppBar(
              backgroundColor: Colors.transparent,
-          leading: Icon(Icons.arrow_back_ios, color: Color(0xFFFFFFFF),),
+          leading: GestureDetector(
+              onTap: ()=>Navigator.pop(context, true),
+              child: Icon(Icons.arrow_back_ios, color: Color(0xFFFFFFFF))),
           title: Container(
             alignment: Alignment.centerRight,
             child: Text("Don't have an Account?", textAlign: TextAlign.end, style: TextStyle(
@@ -70,8 +85,15 @@ void login(BuildContext context) async {
          actions: [
            Container(
              margin: EdgeInsets.fromLTRB(0,0,32,0),
-             child: TextButton(onPressed: (){}
-                 , child: Text("Get Started", style: TextStyle(color: Color(0xFFFFFFFF),
+             child: TextButton(onPressed: (){
+               Navigator.push(
+                   context,
+                   MaterialPageRoute(
+                     builder: (context) => SetProfileScreen(),
+                   )
+               );
+             }
+                 , child: Text("Create Account", style: TextStyle(color: Color(0xFFFFFFFF),
                )),
              style: ButtonStyle(
                  backgroundColor: MaterialStatePropertyAll(Color(0x4DFFFFFF)),
@@ -194,7 +216,7 @@ void login(BuildContext context) async {
                             )),
                             // margin: EdgeInsets.fromLTRB(20, 28, 20, 0),
                             child: TextButton(onPressed:() => login(context),
-                              child: Text("Get Started", style: TextStyle(color: Color(0xFFFFFFFF),
+                              child: Text("Login", style: TextStyle(color: Color(0xFFFFFFFF),
                               )),
                               style: ButtonStyle(
 

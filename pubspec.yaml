@@ -38,12 +38,14 @@ dependencies:
   cloud_firestore: ^4.15.10
   firebase_auth: ^4.17.9
   firebase_core: ^2.27.1
+  gradient_borders: ^1.0.0
   image_picker: ^1.0.7
   like_button: ^2.0.5
   photo_manager: ^3.0.0
   photo_manager_image_provider: ^2.1.1
   carousel_slider: ^4.2.1
   firebase_storage: ^11.6.11
+  flutter_profile_picture: ^2.0.0
 
 
 dev_dependencies:

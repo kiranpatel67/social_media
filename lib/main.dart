@@ -1,12 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:social_media/imagepicker/grid_display.dart';
-import 'package:social_media/loginuI/userI.dart';
-import 'package:social_media/pages/pageview.dart';
-import 'package:social_media/scroll_page/scroll_img.dart';
+import 'package:social_media/app.screens/LoginSignup/setUserProfile.dart';
+import 'package:social_media/app.screens/home_page/home_screen.dart';
+import 'package:social_media/app.screens/LoginSignup/UserLogin.dart';
 
-import 'login/email_get.dart';
+import 'data/network/firebaseService.dart';
 
 Future<void> main() async{
   WidgetsFlutterBinding.ensureInitialized();
@@ -15,18 +15,21 @@ Future<void> main() async{
       appId: "1:606670063011:android:854e53ce0d4988fef0c616",
       messagingSenderId: "606670063011",
       projectId: "social-media-ani-kiran"));
-  runApp( MyApp());
+  DocumentSnapshot<Map<String, dynamic>> data = await FirebaseService.getUserData();
+  runApp( MyApp(userData:data.data()));
 }
 
 class MyApp extends StatelessWidget {
-  FirebaseAuth instance = FirebaseAuth.instance;
-   MyApp({super.key});
+  FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+  final Map<String, dynamic>? userData;
+   MyApp({super.key,  this.userData});
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -47,9 +50,19 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
 
-      home:Scrollimage(),
+      home: _firebaseAuth.currentUser != null ? getScreen(context) : HomeScreen(),
 
     );
+  }
+
+  Widget getScreen(BuildContext context) {
+
+    if(userData != null){
+     return HomeScreen();
+    }
+    else{
+      return SetProfileScreen();
+    }
   }
 }
 

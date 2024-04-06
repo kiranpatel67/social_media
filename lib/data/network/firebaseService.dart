@@ -4,26 +4,29 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:social_media/data/models/user.dart';
 
+import '../models/photos.dart';
+
 
 class FirebaseService {
   int likeCount = 0;
   bool isLiked = false;
   final Reference storageRef = FirebaseStorage.instance.ref();
-  final FirebaseFirestore firestore = FirebaseFirestore.instance;
-  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+  static FirebaseFirestore firestore = FirebaseFirestore.instance;
+  static FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
-  Future<DocumentSnapshot<Map<String, dynamic>>> getUserData() async{
+  static Future<DocumentSnapshot<Map<String, dynamic>>> getUserData() async{
     return firestore.collection('users').doc(getUserId()).get();
   }
-  getUserId(){
+  static getUserId(){
     return _firebaseAuth.currentUser?.uid;
   }
+
 
   Future<QuerySnapshot<Map<String, dynamic>>> getPhotos(){
     return firestore.collection('users').doc(getUserId()).collection('photos').get();
   }
   
-  saveUserData({required UserDataModel data}){
+  static saveUserData({required UserDataModel data}){
     firestore.collection('users').doc(getUserId()).set(data.getMap(), SetOptions(merge: true))
     .onError((error, stackTrace) => print(error));
     
@@ -36,10 +39,10 @@ class FirebaseService {
   uploadPhotos({required data}){
        firestore.collection('user').doc(getUserId()).set(data.getPhotoMap())  .onError((error, stackTrace) => print(error));
   }
-  likedPhoto({required data}){
-    if(isLiked){
-      firestore.collection('user').doc(getUserId()).set(data.getPhotoMap('likedby'));
-    }
-
-  }
+  // likedPhoto({required PhotosDataModel data}){
+  //   if(isLiked){
+  //     firestore.collection('user').doc(getUserId()).set(data.getPhotoMap('likedby'));
+  //   }
+  //
+  // }
 }

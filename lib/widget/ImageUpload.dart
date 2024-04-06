@@ -5,16 +5,16 @@ import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:carousel_slider/carousel_controller.dart';
+import 'package:like_button/like_button.dart';
 
-
-class GridDisplay extends StatefulWidget {
-  const GridDisplay({super.key});
+class ImageUpload extends StatefulWidget {
+  const ImageUpload({super.key});
 
   @override
-  State<GridDisplay> createState() => _GridDisplayState();
+  State<ImageUpload> createState() => _ImageUploadState();
 }
 
-class _GridDisplayState extends State<GridDisplay> {
+class _ImageUploadState extends State<ImageUpload> {
 
   List<File> selectedImages = [];
   final picker = ImagePicker();
@@ -24,24 +24,13 @@ class _GridDisplayState extends State<GridDisplay> {
 
     return Scaffold(
 
-        appBar: AppBar(
-          centerTitle: true,
-          title: Text('Image Carousel',
-            style: TextStyle(color: Color(0xFFFFFFFF),
-            ),
-            textAlign: TextAlign.center,
-          ),
-          leading: Icon(Icons.home, color: Color(0xFFFFFFFF)),
-          backgroundColor: Color(0xFF0C22EA),
-
-        ),
-        body: Column(
+               body: Column(
           children: [
             Container(
               alignment: Alignment.center,
               margin: EdgeInsets.all(20),
               child: TextButton(onPressed: (){
-                if(selectedImages.length!=0){
+                if(selectedImages.length==0){
                   PickImages();
                 }
                 else{
@@ -50,7 +39,8 @@ class _GridDisplayState extends State<GridDisplay> {
 
 
               },
-                  style: ButtonStyle(backgroundColor: MaterialStateColor.resolveWith((color) => Color(0xFF0C22EA))),
+                  style: ButtonStyle(backgroundColor: MaterialStateColor.resolveWith((color) => Color(
+                      0xFF7076BE))),
                   child: Text(selectedImages.length==0?'Select Images':'submit',
                     style: TextStyle(color: Color(0xFFFFFFFF)),
 
@@ -64,7 +54,7 @@ class _GridDisplayState extends State<GridDisplay> {
               padding: EdgeInsets.all(10),
               decoration: BoxDecoration(
 
-                  color: Color(0xFF0C22EA)
+                  color: Color(0xFF8774AF)
               ),
               child: CarouselSlider.builder(itemCount: selectedImages.length!=0?selectedImages.length:1, itemBuilder: (context, index, realIndex) {
                 if(selectedImages.length ==0){
