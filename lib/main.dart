@@ -14,7 +14,8 @@ Future<void> main() async{
   FirebaseOptions(apiKey: "AIzaSyAL_P9kzNP1KK-IpadVCFrkV2IZKDInoDw",
       appId: "1:606670063011:android:854e53ce0d4988fef0c616",
       messagingSenderId: "606670063011",
-      projectId: "social-media-ani-kiran"));
+      projectId: "social-media-ani-kiran",
+      storageBucket: 'social-media-ani-kiran.appspot.com'));
   DocumentSnapshot<Map<String, dynamic>> data = await FirebaseService.getUserData();
   runApp( MyApp(userData:data.data()));
 }

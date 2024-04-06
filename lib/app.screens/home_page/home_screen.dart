@@ -35,9 +35,11 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
        body: <Widget> [
          Container(
-           child: Expanded(child:
-           //     SHOWS POSTS HERE
-           ImageUpload()),
+           child:
+
+           Container(
+               child: Image.network('')
+           ),
          ),
        Container(
          child: ImageUpload(),

@@ -1,11 +1,14 @@
 import 'dart:async';
 
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:carousel_slider/carousel_controller.dart';
 import 'package:like_button/like_button.dart';
+import 'package:social_media/data/network/firebaseService.dart';
 
 class ImageUpload extends StatefulWidget {
   const ImageUpload({super.key});
@@ -15,6 +18,8 @@ class ImageUpload extends StatefulWidget {
 }
 
 class _ImageUploadState extends State<ImageUpload> {
+
+
 
   List<File> selectedImages = [];
   final picker = ImagePicker();
@@ -34,7 +39,9 @@ class _ImageUploadState extends State<ImageUpload> {
                   PickImages();
                 }
                 else{
-                  //submit
+                  selectedImages.forEach((image) {
+                    FirebaseService.uploadPhotos(file: image);
+                  });
                 }
 
 
