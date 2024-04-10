@@ -44,6 +44,7 @@ dependencies:
   photo_manager: ^3.0.0
   photo_manager_image_provider: ^2.1.1
   path: ^1.9.0
+  path_provider: ^2.1.2
   carousel_slider: ^4.2.1
   firebase_storage: ^11.6.11
   flutter_profile_picture: ^2.0.0
@@ -59,6 +60,7 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^3.0.0
+  image_picker_for_web: ^3.0.3
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

@@ -38,7 +38,7 @@ class _HomeScreenState extends State<HomeScreen> {
            child:
 
            Container(
-               child: Image.network('')
+               child: Image.network('https://cdn-icons-png.freepik.com/512/5883/5883521.png')
            ),
          ),
        Container(

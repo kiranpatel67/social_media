@@ -8,6 +8,7 @@ import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:carousel_slider/carousel_controller.dart';
 import 'package:like_button/like_button.dart';
+import 'package:social_media/data/models/photos.dart';
 import 'package:social_media/data/network/firebaseService.dart';
 
 class ImageUpload extends StatefulWidget {
@@ -21,7 +22,7 @@ class _ImageUploadState extends State<ImageUpload> {
 
 
 
-  List<File> selectedImages = [];
+  List<XFile> selectedImages = [];
   final picker = ImagePicker();
 
   @override
@@ -34,14 +35,25 @@ class _ImageUploadState extends State<ImageUpload> {
             Container(
               alignment: Alignment.center,
               margin: EdgeInsets.all(20),
-              child: TextButton(onPressed: (){
+              child: TextButton(onPressed: () async{
                 if(selectedImages.length==0){
                   PickImages();
                 }
                 else{
-                  selectedImages.forEach((image) {
-                    FirebaseService.uploadPhotos(file: image);
+                  List<String> imageUrlList = [];
+                  await Future.forEach(selectedImages,
+                          (image) async{
+                   String imageUrl = await FirebaseService.uploadPhotos(file: image);
+                   imageUrlList.add(imageUrl);
+                   print(imageUrl);
                   });
+                  print('hello $imageUrlList');
+                  PhotosDataModel photoData = PhotosDataModel(id: DateTime.timestamp().microsecondsSinceEpoch.toString(),
+                      uid: FirebaseService.getUserId() ,
+                      title: 'Post',
+                      description: 'Hello',
+                      imageurl: imageUrlList, likedby: [], likecount: 0);
+                  FirebaseService.savePhotos(data: photoData);
                 }
 
 
@@ -93,14 +105,9 @@ class _ImageUploadState extends State<ImageUpload> {
     final List<XFile> pickedImage = await picker.pickMultiImage();
     List<XFile> xfilePick = pickedImage;
 
-
     setState(
           () {
-        if (xfilePick.isNotEmpty) {
-          for (var i = 0; i < xfilePick.length; i++) {
-            selectedImages.add(File(xfilePick[i].path));
-          }
-        }
+            selectedImages = xfilePick;
       },
     );
 

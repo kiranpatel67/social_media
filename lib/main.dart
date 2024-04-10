@@ -51,7 +51,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
 
-      home: _firebaseAuth.currentUser != null ? getScreen(context) : HomeScreen(),
+      home: _firebaseAuth.currentUser != null ? getScreen(context) : UserLogin(),
 
     );
   }
