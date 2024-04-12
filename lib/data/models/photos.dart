@@ -3,7 +3,7 @@ class PhotosDataModel {
   String uid;
   String title;
   String description;
-  List<String> imageurl;
+  List<dynamic> imageurl;
   List<dynamic> likedby;
   int likecount;
 
@@ -24,9 +24,22 @@ class PhotosDataModel {
       "title": title,
       "description": description,
       "imageurl": List<String>.from(imageurl.map((e) => e)) ,
-      "likedby": List<dynamic>.from(likedby.map((x) => x)),
+      "likedby": List<String>.from(likedby.map((x) => x)),
       "likecount": likecount,
     };
+  }
+
+
+  factory PhotosDataModel.fromJson( Map<String, dynamic> data){
+    return PhotosDataModel(
+        id: data['id'],
+        uid: data['uid'],
+        title: data['title'],
+        description: data['description'],
+        imageurl: data['imageurl'] ?? [],
+        likedby: data['likedby'] ?? [],
+        likecount: data['likecount']);
+
   }
 
 }

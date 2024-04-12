@@ -46,12 +46,11 @@ class FirebaseService {
     Reference spaceRef = storageRef.child("${_firebaseAuth.currentUser?.uid}/${DateTime.timestamp().millisecondsSinceEpoch.toString()}${p.extension(file.name)}" );
     final metadata = SettableMetadata(
       contentType: 'image/jpeg',
-      customMetadata: {'picked-file-path': file.path},
     );
 
     if(kIsWeb){
 
-      await spaceRef.putData(await file.readAsBytes()).whenComplete(() => print('Done'));
+      await spaceRef.putData(await file.readAsBytes(), metadata).whenComplete(() => print('Done'));
     }else{
       await spaceRef.putFile(File(file.path), metadata).whenComplete(() => print('Done'));
     }

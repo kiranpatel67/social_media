@@ -2,12 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:social_media/app.screens/LoginSignup/setUserProfile.dart';
 
 import 'package:social_media/widget/ImageUpload.dart';
+import 'package:social_media/widget/ProfilePage.dart';
 import 'package:social_media/widget/bottom_bar.dart';
 import 'package:social_media/widget/Stories.dart';
 import 'package:like_button/like_button.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:carousel_slider/carousel_controller.dart';
+
+import '../../widget/Feed.dart';
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -38,12 +41,18 @@ class _HomeScreenState extends State<HomeScreen> {
            child:
 
            Container(
-               child: Image.network('https://cdn-icons-png.freepik.com/512/5883/5883521.png')
+               child: Feed()
            ),
          ),
        Container(
          child: ImageUpload(),
-       )
+       ),
+         Container(
+           child: Text('todo'),
+         ),
+         Container(
+           child: ProfilePage(),
+         )
        ][currentPageIndex],
 
      bottomNavigationBar: NavigationBar(

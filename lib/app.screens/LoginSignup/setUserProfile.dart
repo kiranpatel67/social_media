@@ -38,7 +38,9 @@ class _SetProfileScreenState extends State<SetProfileScreen> {
           style: TextStyle(
               color: Color(0xFFFFFFFF)
           ),),
-        leading: Icon(Icons.arrow_back, color: Color(0xFFFFFFFF)),
+        leading: IconButton(icon: Icon(Icons.arrow_back, color: Color(0xFFFFFFFF)),onPressed: (){
+          Navigator.pop(context, true);
+        },),
         backgroundColor: Color(0xFF1932D5),
       ),
       body: SingleChildScrollView(
